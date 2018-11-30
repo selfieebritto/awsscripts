@@ -2,15 +2,15 @@
 #This script monitors server load and memory usage for every 10 seconds and sends notification to telegram in case of high usage.
 
 #Include telegram chat id and bot token ID here
-chat_id="630649"
-token="3841ce91ec10c8604e710bacd52b30fa"
+chat_id="-305918035"
+token="729921055:AAFTd-nHEObCRALF5dCKfgoaRQ8MuXczuxw"
 
 #Temporary files to store data
 resource_usage_info=/tmp/resource_usage_info.txt
 msg_caption=/tmp/telegram_msg_caption.txt
 
 #Set threshold levels for memory usage and load here. If the usage exceeds these values, the notification will be sent.
-mem_threshold=20 #Should be interger. This is in percentage
+mem_threshold=40 #Should be interger. This is in percentage
 load_threshold=$(nproc) #Should be integer. Usually total number of cores.
 
 #Telegram API to send notificaiton.
@@ -37,7 +37,7 @@ do
     sleep 10
 	
 #Checking Apache is running
-	if [ $(/etc/init.d/apache2 status | grep active | awk '{print $3}') -gt "(dead)" ] 
+	if [ $(/etc/init.d/apache2 status | grep active | awk '{print $3}') = "(dead)" ] 
 		then
 		$(/etc/init.d/apache2 restart)
 		echo -e "High CPU usage detected on $(hostname)\n$(uptime)" > $msg_caption
