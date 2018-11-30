@@ -32,10 +32,25 @@ do
         telegram_send
         rm -f $resource_usage_info
         rm -f $msg_caption
-        sleep 900 #stop executing script for 15 minutes
+        sleep 300 #stop executing script for 5 minutes
     fi
     sleep 10
-
+	
+#Checking Apache is running
+	if [ $(/etc/init.d/apache2 status | grep active | awk '{print $3}') -gt "(dead)" ] 
+		then
+		$(/etc/init.d/apache2 restart)
+		echo -e "High CPU usage detected on $(hostname)\n$(uptime)" > $msg_caption
+		echo -e "Apache is dead from $(hostname)\nServer Time : $(date +"%d%b%Y %T")">>$msg_caption
+		echo -e "Apache restarted gracefull..">>$msg_caption
+		caption=$(<$msg_caption)
+        telegram_send
+        rm -f $resource_usage_info
+        rm -f $msg_caption
+        sleep 60 #stop executing script for 1 minutes
+	fi
+	sleep 10
+	
 #Monitoring Memory usage on the server
     mem=$(free -m)
     mem_usage=$(echo "$mem" | awk 'NR==2{printf "%i\n", ($3*100/$2)}')
@@ -48,7 +63,7 @@ do
         telegram_send
         rm -f $resource_usage_info
         rm -f $msg_caption
-        sleep 900 #stop executing script for 15 minutes
+        sleep 180 #stop executing script for 3 minutes
     fi
     sleep 10
 done
