@@ -1,0 +1,9 @@
+context
+1) File permission
+
+
+
+1)File permission:
+	sudo chown -R www-data:dev-mysitenamehere . //ownership
+    sudo find . -type f -exec chmod 0644 {} \; //files
+    sudo find . -type d -exec chmod 2755 {} \; //dir
