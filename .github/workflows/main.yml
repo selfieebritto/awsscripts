@@ -5,10 +5,10 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
-  push:
-    branches: [ "master" ]
-    tags:
-      - '**'
+#   push:
+#     branches: [ "master" ]
+#     tags:
+#       - '**'
 
   workflow_run:
     workflows:
@@ -19,7 +19,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    if: ${{ contains(github.event.ref, 'master') || contains(github.event.ref, 'qa') || contains(github.event.ref, 'prod') }}
+    if: ${{ always() && (contains(github.event.ref, 'master') || contains(github.event.ref, 'qa') || contains(github.event.ref, 'prod')) }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     
