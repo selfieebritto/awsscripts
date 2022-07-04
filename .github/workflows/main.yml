@@ -22,6 +22,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    if: ${{ (github.event.workflow_run.conclusion == 'success') && startsWith(github.event.ref, 'refs/tags/qa') || startsWith(github.event.ref, 'refs/tags/prod') }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
